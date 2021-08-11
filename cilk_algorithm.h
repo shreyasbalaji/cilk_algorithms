@@ -36,13 +36,13 @@ _RandomAccessIterator rotate(_RandomAccessIterator first, _RandomAccessIterator 
   // Rotates smaller segment into proper position
   // Loads larger segment from buffer and rotates into proper position
   if (a <= c / 2) {
-    value_t *buffer = (value_t *)malloc(b * sizeof(value_t));
+    value_t *buffer = new value_t[b];
     cilk_for(diff_t k = 0; k < b; ++k) { *(buffer + k) = std::move(*(middle + k)); }
     cilk_for(diff_t k = 0; k < a; ++k) { *(first + b + k) = std::move(*(first + k)); }
     cilk_for(diff_t k = 0; k < b; ++k) { *(first + k) = std::move(*(buffer + k)); }
     delete buffer;
   } else {
-    value_t *buffer = (value_t *)malloc(a * sizeof(value_t));
+    value_t *buffer = new value_t[a];
     cilk_for(diff_t k = 0; k < a; ++k) { *(buffer + k) = std::move(*(first + k)); }
     cilk_for(diff_t k = 0; k < b; ++k) { *(first + k) = std::move(*(middle + k)); }
     cilk_for(diff_t k = 0; k < a; ++k) { *(first + b + k) = std::move(*(buffer + k)); }
@@ -263,8 +263,8 @@ _RandomAccessIterator find(_RandomAccessIterator first, _RandomAccessIterator la
   _RandomAccessIterator middle = first + (range_width / 2);
 
   // spawn each half in parallel
-  _RandomAccessIterator left_find = cilk_spawn::cilkstl::__parallel::find(first, middle, value);
-  _RandomAccessIterator right_find = ::cilkstl::__parallel::find(middle, last, value);
+  _RandomAccessIterator left_find = cilk_spawn cilkstl::__parallel::find(first, middle, value);
+  _RandomAccessIterator right_find = cilkstl::__parallel::find(middle, last, value);
   cilk_sync;
 
   // combine results
@@ -301,8 +301,8 @@ void __find2(_RandomAccessIterator begin, typename std::iterator_traits<_RandomA
     } else {
       // recurse into two array halves
       diff_t middle = start + range_width / 2;
-      cilk_spawn::cilkstl::__parallel::__find2(begin, start, middle, value, idx);
-      ::cilkstl::__parallel::__find2(begin, middle, end, value, idx);
+      cilk_spawn cilkstl::__parallel::__find2(begin, start, middle, value, idx);
+      cilkstl::__parallel::__find2(begin, middle, end, value, idx);
     }
   }
 
