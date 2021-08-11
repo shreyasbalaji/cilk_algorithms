@@ -18,8 +18,8 @@ constexpr int CILKSTL_PARALLEL_MERGE_CUTOFF =
     1000; // cutoff below which the merge routine will default to serial execution
 
 /**
- * This file implements a standard parallel mergesort algorithm using a single temporary buffer of
- * equal size to the input sequence
+ * This file implements a parallel mergesort algorithm using a single temporary buffer of equal size to the input 
+ * sequence
  */
 
 /**
@@ -27,8 +27,8 @@ constexpr int CILKSTL_PARALLEL_MERGE_CUTOFF =
  */
 template <class _DataType> class StableSortBuffer {
 public:
-  StableSortBuffer(size_t size) { data_ = (_DataType *)malloc(size * sizeof(_DataType)); }
-  ~StableSortBuffer() { delete data_; }
+  StableSortBuffer(size_t size) { data_ = new _DataType[size]; }
+  ~StableSortBuffer() { delete[] data_; }
   _DataType *data() { return data_; }
 
 private:
@@ -41,8 +41,7 @@ private:
 
 /**
  * Helper method that merges region [as, ae) and [bs, be) using the comparison operator `comp`, and stores the result in
- * the region
- * beginning at cs.
+ * the region beginning at `cs`.
  */
 template <class _RandomAccessIterator1, class _RandomAccessIterator2, class _RandomAccessIterator3, class _CompareFunc>
 void serial_merge(_RandomAccessIterator1 as, _RandomAccessIterator1 ae, _RandomAccessIterator2 bs,

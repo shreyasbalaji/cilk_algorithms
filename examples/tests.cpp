@@ -55,6 +55,8 @@ private:
   }
 };
 
+std::int64_t TypedDataSpace::id_count = 0;
+
 static std::vector<double> random_vector(size_t size) {
   static std::default_random_engine engine;
   static std::uniform_real_distribution<double> distribution(0.0, 1.0);
@@ -231,4 +233,14 @@ int test_stable_sort_correctness2() {
   }
   std::cout << "SUCCESS: test_stable_sort_correctness2" << std::endl;
   return 0;
+}
+
+int main() {
+    test_rotate_element();
+    test_min_element();
+    test_find();
+    test_find2();
+    test_stable_sort_correctness1();
+    test_stable_sort_correctness2();
+    return 0;
 }

@@ -40,13 +40,13 @@ _RandomAccessIterator rotate(_RandomAccessIterator first, _RandomAccessIterator 
     cilk_for(diff_t k = 0; k < b; ++k) { *(buffer + k) = std::move(*(middle + k)); }
     cilk_for(diff_t k = 0; k < a; ++k) { *(first + b + k) = std::move(*(first + k)); }
     cilk_for(diff_t k = 0; k < b; ++k) { *(first + k) = std::move(*(buffer + k)); }
-    delete buffer;
+    delete[] buffer;
   } else {
     value_t *buffer = new value_t[a];
     cilk_for(diff_t k = 0; k < a; ++k) { *(buffer + k) = std::move(*(first + k)); }
     cilk_for(diff_t k = 0; k < b; ++k) { *(first + k) = std::move(*(middle + k)); }
     cilk_for(diff_t k = 0; k < a; ++k) { *(first + b + k) = std::move(*(buffer + k)); }
-    delete buffer;
+    delete[] buffer;
   }
 
   return first + b;
