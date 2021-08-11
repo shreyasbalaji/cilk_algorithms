@@ -6,6 +6,9 @@
 #include <random>
 #include <vector>
 
+/**
+ * Defines a large datatype that has an id that differs from value for comparison, to test stability of stable sort.
+ */
 class TypedDataSpace {
 public:
   static std::int64_t id_count;

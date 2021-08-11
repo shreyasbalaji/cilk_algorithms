@@ -1,5 +1,5 @@
-#ifndef CILKSTL_ALGORITHM_H
-#define CILKSTL_ALGORITHM_H
+#ifndef CILKSTL_ALGORITHM_PARTITION_H
+#define CILKSTL_ALGORITHM_PARTITION_H
 
 #include <cilk/cilk.h>
 #include <cilk/reducer.h>
